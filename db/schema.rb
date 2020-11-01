@@ -395,6 +395,8 @@ ActiveRecord::Schema.define(version: 2020_10_25_061056) do
   add_foreign_key "programs", "resources"
   add_foreign_key "resources", "contacts"
   add_foreign_key "resources", "fundings"
+  add_foreign_key "resources_sites", "resources"
+  add_foreign_key "resources_sites", "sites"
   add_foreign_key "reviews", "feedbacks"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"

@@ -80,25 +80,22 @@ class ResourcesController < ApplicationController
         fix_lat_and_long(a)
       end
       
+      sff = Site.find_by site_code: "sffamilies"
       sfsg = Site.find_by site_code: "sfsg"
-      if r.has_attribute? :sites 
-        if r.sites.empty?
-          r.sites = [sfsg]
+      
+      if r.sites.length > 0
+        input_sites = []
+        r.sites.each do |s|
+          if s == "sfsg"
+            input_sites.push(sfsg)
+          elsif s == "sffamilies"
+            input_sites.push(sff)
+          end
+        end
+        if input_sites.length > 0
+          r.sites = input_sites 
         else
-          checked_sites = []
-          sff = Site.find_by site_code: "sffamilies"
-          
-          r.sites.each do |s|
-            # If more partners are supported this needs to be built out
-            checked_sites.push(sff) if s == "sffamilies" && !checked_sites.include?(sff)
-            checked_sites.push(sfsg) if s == "sfsg" && !checked_sites.include?(sfsg)
-          end
-
-          if checked_sites.empty?
-            r.sites = [sfsg]
-          else  
-            r.sites = checked_sites
-          end
+          r.sites = [sfsg]
         end
       else
         r.sites = [sfsg]

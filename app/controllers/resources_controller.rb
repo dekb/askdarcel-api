@@ -80,26 +80,11 @@ class ResourcesController < ApplicationController
         fix_lat_and_long(a)
       end
       
-      sff = Site.find_by site_code: "sffamilies"
-      sfsg = Site.find_by site_code: "sfsg"
-      
-      if r.sites.length > 0
-        input_sites = []
-        r.sites.each do |s|
-          if s == "sfsg"
-            input_sites.push(sfsg)
-          elsif s == "sffamilies"
-            input_sites.push(sff)
-          end
-        end
-        if input_sites.length > 0
-          r.sites = input_sites 
-        else
-          r.sites = [sfsg]
-        end
-      else
+      if (r.sites.length==0)
+        sfsg = Site.find_by site_code: "sfsg"
         r.sites = [sfsg]
       end
+
     end
   end
 
@@ -140,7 +125,7 @@ class ResourcesController < ApplicationController
       phones: %i[number service_type],
       notes: [:note],
       categories: [:id],
-      sites: [:site_code]
+      sites: [:id]
     )
   end
 
@@ -156,6 +141,8 @@ class ResourcesController < ApplicationController
     end
 
     resource['category_ids'] = resource.delete(:categories).collect { |h| h[:id] } if resource.key? :categories
+
+    resource['site_ids'] = resource.delete(:sites).collect { |h| h[:id] } if resource.key? :sites
 
     transform_simple_objects resource
   end

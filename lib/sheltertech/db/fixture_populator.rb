@@ -117,12 +117,12 @@ module ShelterTech
       def create_eligibilities
         EligibilityCreator.create
       end
-      
+
       def create_sites
         sfsg = Site.new
         sfsg.site_code = "sfsg"
         sfsg.save!
-        
+
         sff = Site.new
         sff.site_code = "sffamilies"
         sff.save!

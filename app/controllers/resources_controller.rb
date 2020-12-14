@@ -79,12 +79,11 @@ class ResourcesController < ApplicationController
       r.addresses.each do |a|
         fix_lat_and_long(a)
       end
-      
-      if (r.sites.length==0)
+
+      if r.sites.length.zero?
         sfsg = Site.find_by site_code: "sfsg"
         r.sites = [sfsg]
       end
-
     end
   end
 

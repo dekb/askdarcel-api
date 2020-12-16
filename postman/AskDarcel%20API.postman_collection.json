@@ -180,6 +180,162 @@
 			"response": []
 		},
 		{
+			"name": "Get services by categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5365e1a0-1071-4351-85ef-9708f52aee29",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f6c655e-c3fe-421c-b8c8-a682153f1c38",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by eligibilities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ab13acf-f751-47d3-84f4-c725d540a0a0",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get services by eligibility",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8f92a0e-215a-41a3-991f-175845034625",
+						"exec": [
+							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var response = pm.response.json();"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/services/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"services",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get category by id",
 			"event": [
 				{

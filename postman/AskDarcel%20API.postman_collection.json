@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bb6f6d44-2010-4a93-b063-88783098893d",
+		"_postman_id": "8aed082f-4bdf-4fb2-b9c8-6c205a3ad3d2",
 		"name": "AskDarcel API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1428b28e-35f7-432f-834e-f7b42d5aa451",
+						"id": "786fc94f-9699-4441-9c7a-4afc1e9ed6ea",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
@@ -51,7 +51,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9a6b54af-edf5-4ad0-b2e4-9672ea62ce1f",
+						"id": "fa004c6b-0249-4092-80ae-d9df5b9d2ea6",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -111,7 +111,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "940c4da6-d854-4465-8610-71f7937fc56d",
+						"id": "7fbba189-81b6-4b82-822e-8d796abf0bbf",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Status code is 200\"] = responseCode.code === 200;  "
@@ -146,7 +146,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5ad964a1-17a8-4ff8-b188-7d3c753163e8",
+						"id": "150d44cd-206c-46ee-af1b-646b1343f818",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -341,7 +341,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9c53ac90-f2ba-47b3-8cf2-b1320278bfd0",
+						"id": "24d67b25-9212-4ba0-b40f-afb9ddcdc3f0",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -380,7 +380,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "07dd5e99-b26a-4fde-911f-9a40dcd2d2de",
+						"id": "f846b5d4-6428-4440-b935-735b63907759",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 1000;",
@@ -419,7 +419,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "572bd7d3-5061-4b75-8fdd-eab5e12376d2",
+						"id": "aadb285c-991c-45bd-8178-2c30489b0bf3",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
 							"",
@@ -471,7 +471,7 @@
 							"",
 							""
 						],
-						"id": "fb75acbf-5643-4a1a-8157-99063c38f6ab"
+						"id": "dad84504-4839-4cd1-9241-8195e6c7e8a2"
 					}
 				}
 			],
@@ -502,7 +502,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0c69e441-62e0-4902-831e-4048135837e9",
+						"id": "23ef83fa-4580-4b6b-9fdf-f62be35112ef",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
@@ -557,7 +557,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "252df5cb-4e0a-46ec-b518-b5ce84470720",
+						"id": "5b67b9f9-12d6-4b8d-a054-b96760ef5fe4",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
@@ -612,7 +612,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2d134fe6-ab51-4a38-bc95-e8a7cc80b7f8",
+						"id": "6c0420e7-2dc5-48f2-97fe-d12a67e9a930",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -655,7 +655,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7e899e0c-c129-4995-9b7a-696553417dd2",
+						"id": "a7d7762e-9edd-4b29-b72a-d04bed652a18",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -702,7 +702,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2ae14a5f-a437-4f87-98c3-00d5932169df",
+						"id": "8e310583-1af8-4e24-a2de-aaf9f6b64381",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -747,7 +747,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f859bc75-5e4d-4afb-bd4a-20bc6811eb8b",
+						"id": "58d50228-8a73-4434-8eac-fa74a3364fc6",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -800,7 +800,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f6f8b56c-cbd3-452f-8134-bc044c701549",
+						"id": "b4d2791c-9c04-49ba-9f08-474895a35b48",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -853,7 +853,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f51fe31f-788e-4549-bd1f-83ccbf91f9c5",
+						"id": "2cc90a97-896a-43e4-882e-499e825737a1",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1500ms\"] = responseTime < 1500;",
@@ -927,7 +927,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "85f1eb79-27eb-4e09-ad50-1f66f58ea696"
+						"id": "447c8604-442b-4ce8-9793-d62c2386abfd"
 					}
 				}
 			],
@@ -973,7 +973,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "18e67a17-62d6-440b-943f-3a798ea47c5b"
+						"id": "219f539c-c486-4179-9c42-802f18652ba7"
 					}
 				}
 			],
@@ -1019,7 +1019,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "448e16c7-5a5d-47ec-9afa-8dcfbbd6ac91"
+						"id": "af7f4656-ce83-4666-b543-71b7f3f04c4c"
 					}
 				}
 			],
@@ -1065,7 +1065,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "9b019b85-b16f-4ad1-bea6-9533d0203fa2"
+						"id": "110722bf-d3ce-4274-b063-ec83534e98b4"
 					}
 				}
 			],
@@ -1111,7 +1111,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "4c1559b9-e855-4a86-a5de-c16483a577d8"
+						"id": "9b206270-f4d1-4c6e-9545-1dc9c8e65ed6"
 					}
 				}
 			],
@@ -1157,7 +1157,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "ff0c4cd8-f80a-47e6-91cc-07973337d37b"
+						"id": "d9336a8c-1695-4c1d-87ab-d7b386f5442b"
 					}
 				}
 			],
@@ -1197,7 +1197,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0ee4d680-5b89-40ac-8ca7-ce6978a1a961",
+						"id": "3efaafd8-9d5e-4bb0-9203-6323ebbeeabd",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1243,7 +1243,51 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c99ec77b-d91b-496b-94c6-068d0ae0ba4e",
+						"id": "c024d34e-8e08-433f-b39e-e385dbf9c3f7",
+						"exec": [
+							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
+							"",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"resources\":[{\"name\":\"Test new\",\"addresses\":[{\"address_1\":\"601 4th Street\",\"city\":\"San Francisco\",\"state_province\":\"CA\",\"country\":\"USA\",\"postal_code\":\"49032\"}],\"long_description\":\"test\",\"email\":\"test@test.com\",\"website\":\"test.com\",\"notes\":[],\"schedule\":{\"schedule_days\":[{\"day\":\"Monday\",\"opens_at\":900,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Monday\",\"close_time\":\"10:00:00\",\"close_day\":\"Monday\"},{\"day\":\"Tuesday\",\"opens_at\":100,\"closes_at\":1000,\"open_time\":\"09:00:00\",\"open_day\":\"Tuesday\",\"close_time\":\"10:00:00\",\"close_day\":\"Tuesday\"}]},\"phones\":[{\"number\":\"4155555555\",\"service_type\":\"English\"}],\"sites\":[{\"id\":2}]\n}]}"
+				},
+				"url": {
+					"raw": "{{base_url}}/resources",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"resources"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit New Resource with no Site Code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "174cbea1-40c5-4c52-afe4-926cfc45772e",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1287,7 +1331,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d76da67f-dd5c-4163-a964-ec4ba28e13f7",
+						"id": "33076515-8d54-4ef0-8a6c-d64b31d755e9",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
 							"",
@@ -1337,7 +1381,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "cc00296b-efb9-4d8e-b50b-25e65b8590a1"
+						"id": "fd11007b-1173-46c2-b02c-587de028090d"
 					}
 				}
 			],
@@ -1383,7 +1427,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "d8c40762-0d7c-4938-ac11-51fe5430d988"
+						"id": "0794f536-7736-475f-8ac4-2680f33fd67e"
 					}
 				}
 			],
@@ -1423,7 +1467,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "10a401cd-47ae-4cd4-bf84-f05f495dfc42",
+						"id": "09ee3d48-bf31-4249-889a-80f62a3c5dd5",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
@@ -1468,7 +1512,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4c8ddb01-143d-4426-b06b-9a88ae99a5d5",
+						"id": "f8dd8b8b-73cc-45db-a14a-79eb76f964af",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Response time is less than 1000ms\"] = responseTime < 1000;",
@@ -1519,7 +1563,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "81f7af27-c9de-40ba-bc79-671bb6857821"
+						"id": "214e7bb3-5747-42c9-aa3c-79fa0194966e"
 					}
 				}
 			],
@@ -1563,7 +1607,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "6a752048-6593-4e09-b584-fe78652cbede"
+						"id": "496af2fa-0dd4-4831-8c70-edb7cb3890f8"
 					}
 				}
 			],
@@ -1607,7 +1651,7 @@
 							"",
 							"tests[\"Status code is 201\"] = responseCode.code === 201;"
 						],
-						"id": "f3e61ffb-74e2-47a2-8a82-acefc54bb68e"
+						"id": "cc5013cf-c4af-4e99-b84b-c47379dfb7f3"
 					}
 				}
 			],
@@ -1653,7 +1697,7 @@
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;"
 						],
-						"id": "57413ea7-703c-48c3-8906-81e0177b1bca"
+						"id": "8944a2d4-aa56-40b6-9f11-c46c246723e7"
 					}
 				}
 			],
@@ -1695,7 +1739,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "43c4d3af-a003-4c4e-919b-46a3e11783bf",
+				"id": "11c88ac2-34ad-4c75-b789-9396cb10ac90",
 				"type": "text/javascript",
 				"exec": [
 					"var idSchema = {",
@@ -1930,7 +1974,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "d6a868e9-b272-4861-a5d0-1b102bc26563",
+				"id": "1b056af4-9609-41f1-b496-16f6f6403ca5",
 				"type": "text/javascript",
 				"exec": [
 					""

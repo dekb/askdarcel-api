@@ -11,12 +11,56 @@ class ServicesController < ApplicationController
 
   def index
     if params[:category_id]
-      all_services = find_by_category(params[:category_id])
+      all_services = find_by_categories(params[:category_id], params[:eligibility_id])
     elsif params[:eligibility_id]
       all_services = find_by_eligibility(params[:eligibility_id])
     end
 
     render json: ServicesWithResourcePresenter.present(all_services)
+  end
+
+  def find_by_categories(categories_id_string, eligibilities_id_string)
+    queryString = ""
+    if categories_id_string.include? ","
+      category_ids = categories_id_string.split ","
+      first_cat = true
+      category_ids.each { |cat_id| 
+        if first_cat
+          queryString = "services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
+          first_cat = false
+       else
+          queryString = queryString + " and services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
+        end
+      }    
+    else 
+      queryString = "services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
+    end
+
+    if eligibilities_id_string
+      if (eligibilities_id_string.include? ",")
+        eligibility_ids = eligibilities_id_string.split ","
+        eligibility_ids.each { |elig_id| 
+          queryString = queryString + " and services_id in (select service_id from eligibilities_services where eligibility_id=" + elig_id + ")"
+        } 
+      else
+        queryString = queryString + " and services_id in (select service_id from eligibilities_services where eligibility_id=" + eligibilities_id_string + ")"
+      end
+    end if
+
+    puts queryString
+    return find_services(queryString)   
+
+  end
+
+  def find_services(queryString)
+    services.includes(
+      resource: [
+        :addresses, :phones, :categories, :notes,
+        schedule: :schedule_days,
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
+        ratings: [:review]
+      ]
+    ).where(queryString)
   end
 
   def find_by_category(category_id_string)

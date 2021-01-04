@@ -19,40 +19,48 @@ class ServicesController < ApplicationController
     render json: ServicesWithResourcePresenter.present(all_services)
   end
 
+  # rubocop:disable AbcSize
+  # rubocop:disable MethodLength
+  # rubocop:disable PerceivedComplexity
   def find_by_categories(categories_id_string, eligibilities_id_string)
-    queryString = ""
+    query_string = ""
     if categories_id_string.include? ","
       category_ids = categories_id_string.split ","
       first_cat = true
-      category_ids.each { |cat_id| 
+      category_ids.each do |cat_id|
         if first_cat
-          queryString = "services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
+          query_string = "services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
           first_cat = false
-       else
-          queryString = queryString + " and services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
+        else
+          query_string = query_string +
+                         " and services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
         end
-      }    
-    else 
-      queryString = "services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
+      end
+    else
+      query_string = "services.id in (select service_id from categories_services where category_id=" + cat_id + ")"
     end
 
     if eligibilities_id_string
-      if (eligibilities_id_string.include? ",")
+      if eligibilities_id_string.include? ","
         eligibility_ids = eligibilities_id_string.split ","
-        eligibility_ids.each { |elig_id| 
-          queryString = queryString + " and services_id in (select service_id from eligibilities_services where eligibility_id=" + elig_id + ")"
-        } 
+        eligibility_ids.each do |elig_id|
+          query_string = query_string +
+                         " and services_id in (select service_id from eligibilities_services where eligibility_id=" +
+                         elig_id + ")"
+        end
       else
-        queryString = queryString + " and services_id in (select service_id from eligibilities_services where eligibility_id=" + eligibilities_id_string + ")"
+        query_string = query_string +
+                       " and services_id in (select service_id from eligibilities_services where eligibility_id=" +
+                       eligibilities_id_string + ")"
       end
-    end if
-
-    puts queryString
-    return find_services(queryString)   
-
+    end
+    find_services(query_string)
   end
+  # rubocop:enable AbcSize
+  # rubocop:enable MethodLength
+  # rubocop:enable PerceivedComplexity
 
-  def find_services(queryString)
+  def find_services(query_string)
     services.includes(
       resource: [
         :addresses, :phones, :categories, :notes,
@@ -60,7 +68,7 @@ class ServicesController < ApplicationController
         services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
         ratings: [:review]
       ]
-    ).where(queryString)
+    ).where(query_string)
   end
 
   def find_by_category(category_id_string)

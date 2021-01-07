@@ -22,6 +22,7 @@ class FeedbacksController < ApplicationController
   end
 
   private
+
   # Need to change this logic(load_source) in the future to make it more reliable and dynamic
   def load_source
     source_type, id = request.path.split('/')[1, 2]

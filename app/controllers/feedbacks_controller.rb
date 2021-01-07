@@ -14,8 +14,7 @@ class FeedbacksController < ApplicationController
       rating: params[:rating],
       review_attributes: { review: params[:review], tags: params[:tags] }
     } }
-
-    if @feedback_source.feedbacks.create(feedback_params[:feedback])
+    if @feedback_source.feedbacks.create!(feedback_params[:feedback])
       render status: :created, json: { msg: "Success!" }
     else
       render json: feedback.errors.full_messages, status: :unprocessable_entity
@@ -23,7 +22,7 @@ class FeedbacksController < ApplicationController
   end
 
   private
-
+  # Need to change this logic(load_source) in the future to make it more reliable and dynamic
   def load_source
     source_type, id = request.path.split('/')[1, 2]
     @feedback_source = source_type.classify.constantize.find(id)

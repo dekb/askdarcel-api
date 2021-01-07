@@ -173,7 +173,7 @@ ActiveRecord::Schema.define(version: 2020_10_25_061056) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.boolean "rating", null: false
+    t.string "rating", null: false
     t.bigint "resource_id"
     t.bigint "service_id"
     t.datetime "created_at", null: false

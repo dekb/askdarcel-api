@@ -439,13 +439,13 @@ namespace :onetime do
       ]
       # create, then associate each category with a site
       sfsg_categories.each do |c|
-        create_category_with_sites(c, [ "sfsg" ])
+        create_category_with_sites(c, ["sfsg"])
       end
       sffamilies_exclusive.each do |c|
-        create_category_with_sites(c, [ "sffamilies" ])
+        create_category_with_sites(c, ["sffamilies"])
       end
       sffamilies_inclusive.each do |c|
-        create_category_with_sites(c, [ "sfsg", "sffamilies" ])
+        create_category_with_sites(c, %w[sfsg sffamilies])
       end
     end
   end
@@ -457,15 +457,11 @@ namespace :onetime do
 
   def process_category_site(category, sites)
     cat_obj = Category.find_by(name: category)
-    if cat_obj.nil?
-      ## this shouldn't happen; data above is already vetted to exist in db
-      puts "Category " + category + " does not exist"
-    end
+    ## this shouldn't happen; data above is already vetted to exist in db
+    puts "Category " + category + " does not exist" if cat_obj.nil?
     sites&.each do |site|
       site_obj = Site.find_by(site_code: site)
-      if site_obj.nil?
-        puts "Site " + site + " does not exist"
-      end
+      puts "Site " + site + " does not exist" if site_obj.nil?
       # associate the category with the appropriate site or sites
       CategoriesSites.find_or_create_by(
         category_id: cat_obj.id,
@@ -983,6 +979,4 @@ namespace :onetime do
       end
     end
   end
-
-
 end

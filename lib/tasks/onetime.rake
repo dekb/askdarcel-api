@@ -229,7 +229,6 @@ namespace :onetime do
   # STEP 3: Rename categories to new names
   desc 'HIERARCHY WORK STEP 3: Rename certain categories to new names'
   task rename_categories: :environment do
-    # TODO: rename any categories that expect it
     Category.transaction do
       renames = {
         'Transportation for Healthcare' => 'Healthcare Transportation',
@@ -271,8 +270,6 @@ namespace :onetime do
   # STEP 4: Create new categories that don't exist yet for the hierarchical categories work
   desc 'HIERARCHY WORK STEP 4: Add missing categories'
   task add_new_categories_hierarchical: :environment do
-    # TODO: add SFFamilies-inclusive and SFFamilies-exclusive categories
-    # then map the site codes accordingly
     Category.transaction do
       sfsg_categories = [
         'Residential Care',
@@ -483,7 +480,6 @@ namespace :onetime do
     CategoryRelationship.transaction do
       # hierarchies is a hash of String => hash to represent parent => children
       # except for the last category in the ancestry which maps to nil
-      # TODO: insert SFFamilies categories
       hierarchies = {
         'Basic Needs' => {
           'Clothing' => nil,

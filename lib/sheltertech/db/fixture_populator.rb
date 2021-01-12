@@ -33,6 +33,7 @@ module ShelterTech
         create_categories
         create_resources
         create_eligibilities
+        create_sites
         NewPathwaysCategoryCreator.create_all_new_pathway_categories
       end
 
@@ -116,6 +117,16 @@ module ShelterTech
       def create_eligibilities
         EligibilityCreator.create
       end
+
+      def create_sites
+        sfsg = Site.new
+        sfsg.site_code = "sfsg"
+        sfsg.save!
+
+        sff = Site.new
+        sff.site_code = "sffamilies"
+        sff.save!
+      end
     end
 
     class NewPathwaysCategoryCreator
@@ -138,9 +149,12 @@ module ShelterTech
         create_new_pathway_categories_by_subcategory('Covid-domesticviolence', 1_000_006, ['Temporary Shelter for Women',
                                                                                            'Transitional Housing for Women',
                                                                                            'Legal Assistance', 'Domestic Violence Counseling'])
-        create_new_pathway_categories('Covid-internet', 1_000_007, ['Low-Income'])
+        create_new_pathway_categories_by_subcategory('Covid-internet', 1_000_007, ['Computer and Internet Access', 'Computer Classes', 'Cell phone Services'])
         create_new_pathway_categories_by_subcategory('Covid-lgbtqa', 1_000_008, ['Housing Assistance', 'Legal Assistance ',
                                                                                  'Youth Services', 'Counseling Assistance', 'General Help'])
+        create_new_pathway_categories_by_subcategory('Covid-shelter', 1_000_010, ['We are a family and we need shelter',
+                                                                                  'I am someone between 18-24 years old in need of shelter',
+                                                                                  'I am a single adult and I need shelter'])
       end
 
       def self.create_new_pathway_categories(name, id, eligibilities)
@@ -495,7 +509,8 @@ module ShelterTech
         'Basic Needs & Shelter',
         'Health & Medical',
         'Employment',
-        'sffamilies'
+        'sffamilies',
+        'Covid Shelter'
       ].freeze
 
       TOP_LEVEL_CATEGORY_NAMES = [
@@ -518,7 +533,8 @@ module ShelterTech
         'MOHCD Funded Services',
         'Eviction Defense',
         'Temporary Shelter',
-        'sffamilies'
+        'sffamilies',
+        'Covid Shelter'
       ].freeze
 
       FEATURED_CATEGORY_NAMES = [

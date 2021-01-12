@@ -9,6 +9,38 @@ class ServicesController < ApplicationController
 
   wrap_parameters false
 
+  def index
+    if params[:category_id]
+      all_services = find_by_category(params[:category_id])
+    elsif params[:eligibility_id]
+      all_services = find_by_eligibility(params[:eligibility_id])
+    end
+
+    render json: ServicesWithResourcePresenter.present(all_services)
+  end
+
+  def find_by_category(category_id_string)
+    services.includes(
+      resource: [
+        :addresses, :phones, :categories, :notes,
+        schedule: :schedule_days,
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
+        ratings: [:review]
+      ]
+    ).where(by_category_join_string, (category_id_string.split ","))
+  end
+
+  def find_by_eligibility(eligibility_id_string)
+    services.includes(
+      resource: [
+        :addresses, :phones, :categories, :notes,
+        schedule: :schedule_days,
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
+        ratings: [:review]
+      ]
+    ).where(by_eligibility_join_string, (eligibility_id_string.split ","))
+  end
+
   def show
     service = services.find(params[:id])
     render json: ServicesWithResourcePresenter.present(service)
@@ -181,6 +213,32 @@ class ServicesController < ApplicationController
             WHERE categories_services.category_id = ?
             AND categories_services.feature_rank > 0
             ORDER BY categories_services.feature_rank
+        )
+      )
+    SQL
+  end
+
+  def by_category_join_string
+    <<~'SQL'
+      services.id IN (
+        (
+          SELECT services.id
+            FROM services
+            INNER JOIN categories_services ON services.id = categories_services.service_id
+            WHERE categories_services.category_id in (?)
+        )
+      )
+    SQL
+  end
+
+  def by_eligibility_join_string
+    <<~'SQL'
+      services.id IN (
+        (
+          SELECT services.id
+            FROM services
+            INNER JOIN eligibilities_services ON services.id = eligibilities_services.service_id
+            WHERE eligibilities_services.eligibility_id in (?)
         )
       )
     SQL

@@ -13,6 +13,8 @@ values (1400003, '13-DEC-20', '03-JAN-21', 'I have not been able to pay my rent 
 insert into categories (id, created_at, updated_at, name, top_level, vocabulary, featured)
 values (1400004, '13-DEC-20', '03-JAN-21', 'I am not getting along with my neighbor(s) and /or my landlord and I need advice', 'f', null, 'f');
 
+delete from category_relationships where parent_id=1000004;
+
 -- Insert subcategories in "Rental Assistance and Eviction Prevention"
 insert into category_relationships (parent_id, child_id)
 values (1000004, 1400001);

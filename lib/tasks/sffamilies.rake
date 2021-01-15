@@ -11,17 +11,13 @@ namespace :sffamilies do
       # Find services that have the 'sffamilies' category name tag
       services = Service.joins(:categories).where(categories: { name: 'sffamilies' })
       services.each do |service|
+
         puts("Service id : #{service.id}, Service name: #{service.name}" \
         "from Resource id #{service.resource_id} has sffamilies category tag")
 
-        # Sites are not associated with Services currently
-        # service.sites.each do |service_site|
-        #   puts "#{service_site.id}"
-        # end
-
         # If the parent resource of the sffamilies service is not
         # connected to the site, append the site to it's list
-        resource = Resource.find_by(id: service.id)
+        resource = Resource.find_by(id: service.id)        
         unless resource.sites.include?(sffamilies)
           puts "Adding site association"
           new_sites = resource.sites.append(sffamilies)

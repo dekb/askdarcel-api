@@ -447,6 +447,15 @@ namespace :onetime do
       sffamilies_inclusive.each do |c|
         create_category_with_sites(c, %w[sfsg sffamilies])
       end
+      # for any category that doesn't have a site, 
+      # associate it with 'sfsg'
+      Category.all do |cat_obj|
+        site_obj = Site.find_by(site_code: "sfsg")
+        CategoriesSites.find_or_create_by(
+          category_id: cat_obj.id,
+          site_id: site_obj.id
+        )
+      end
     end
   end
 

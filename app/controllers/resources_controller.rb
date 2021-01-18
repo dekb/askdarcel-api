@@ -61,7 +61,7 @@ class ResourcesController < ApplicationController
                    .joins(:addresses)
                    .where(categories_join_string, category_id, category_id)
                    .where(status: Resource.statuses[:approved])
-                   .order(Arel.sql(sort_order))
+                   .order(sort_order)
                end
     relation
   end

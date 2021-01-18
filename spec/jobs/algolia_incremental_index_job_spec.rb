@@ -20,7 +20,7 @@ RSpec.describe 'Algolia Incremental Index Job' do
   end
 
   context 'when this job has run before and has prior bookmark' do
-    let(:already_processed_resource) { Resource.order('(updated_at, id) ASC').take }
+    let(:already_processed_resource) { Resource.order(Arel.sql('(updated_at, id) ASC')).take }
     let(:already_processed_services) do
       create_list(:service, 2, resource: already_processed_resource)
     end

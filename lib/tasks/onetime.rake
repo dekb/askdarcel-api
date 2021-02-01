@@ -986,8 +986,9 @@ namespace :onetime do
       eligibilities.each do |c|
         Eligibility.find_or_create_by(name: c)
       end
+    end
   end
-    
+
   # Services should always have a corresponding schedule objects, even if they inherit from resource
   # This task backfills missing schedule objects for some services
   desc 'Add schedule objects to services that are missing them'

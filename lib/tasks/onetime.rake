@@ -986,6 +986,25 @@ namespace :onetime do
       eligibilities.each do |c|
         Eligibility.find_or_create_by(name: c)
       end
+  end
+    
+  # Services should always have a corresponding schedule objects, even if they inherit from resource
+  # This task backfills missing schedule objects for some services
+  desc 'Add schedule objects to services that are missing them'
+  task add_missing_schedule_objects: :environment do
+    Schedule.transaction do
+      # Get services with no schedule objects
+      rogue_services = Service.joins('LEFT JOIN schedules '\
+          'ON services.id = schedules.service_id '\
+          'WHERE schedules.id is NULL')
+      rogue_services.each do |service|
+        puts format(
+          'Creating schedule object for service %<service_id>i',
+          service_id: service.service_id
+        )
+        Schedule.create(resource_id: nil, service_id: service.id)
+      end
+      puts format('Created %<num>i missing schedules', num: rogue_services.length)
     end
   end
 end

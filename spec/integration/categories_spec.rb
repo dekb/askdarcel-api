@@ -206,44 +206,48 @@ RSpec.describe 'Categories API', type: :request, capture_examples: true do
       end
     end
   end
-  # Get Resource and Service Counts By Category (doing)
+  # Get Resource and Service Counts By Category (doing!)
 
   # Get All Eligibilities
 
   # Get Eligibilities By Category
 
-  # Get Services By Categories (doing!)
+  # Get Services By Categories (Doing! && testing!)
   path '/services?category_id' do
+    let!(:category) { create :category }
+    # create a resource, =>because service belongs to resource which belongs to category.
+    let!(:service) do
+      resource = create :resource, name: 'a', category_id: category.id
+      service = create :service, resource: resource
+      service
+    end
     get(summary: 'Retrieves services by category_id') do
       tags :services
       produces 'application/json'
       parameter :category_id, in: :query, type: :integer, required: true
-      # should return all resources under the specific category
-      let!(:category_a) { create :category, name: 'a' }
-      let!(:category_b) { create :category, name: 'b' }
-      let!(:services) do
-        create_list :services, 2, categories: []
-      end
-      let!(:services_a) do
-        create_list :services, 2, categories: [category_a]
-      end
-      let!(:services_b) do
-        create_list :services, 2, categories: [category_b]
+      parameter :id, in: :path, type: :integer, description: 'Service ID'
+
+      response(200, description: 'service found') do
+        let(:id) { service.id }
+        it 'returns only services with that category' do
+          get "/services?category_id=#{category.id}"
+          returned_ids = response_json['services'].map { |s| s['id'] }
+          expect(returned_ids).to match_array(services.map(&:id))
+        end
+        it 'Has the correct response' do
+          expect(response_json['service']).to include(
+            'name' => service.name,
+            'long_description' => service.long_description,
+            'eligibility' => service.eligibility,
+            'required_documents' => service.required_documents,
+            'fee' => service.fee,
+            'application_process' => service.application_process,
+            'notes' => Array,
+            'schedule' => Hash
+          )
+        end
       end
 
-      response(200, description: 'resources found') do
-        # capture_example
-        it 'returns only resources with that category' do
-          get "/resources?category_id=#{category_a.id}"
-          returned_ids = response_json['resources'].map { |r| r['id'] }
-          expect(returned_ids).to match_array(resources_a.map(&:id))
-        end
-        it 'Returns the correct number of resources' do
-          body = JSON.parse(response.body)
-          expect(body['resources'].count).to eq Resource.where(category_id: 1).count
-        end
-      end
-    end
     # service = category_a.services.first
     #
     # expect(response_json['category']['services'][0]).to include(

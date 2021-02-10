@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ResourcesPresenter < Jsonite
+  property :updated_at
   property :alternate_name
   property :certified
   property :email

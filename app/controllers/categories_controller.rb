@@ -35,4 +35,23 @@ class CategoriesController < ApplicationController
     categories = Category.where(featured: true)
     render json: CategoryPresenter.present(categories)
   end
+
+  def hierarchy
+    json_obj = {:categories => []}
+    # Find all top level categories
+    categories = Category.where(top_level: true)
+    categories.each do |cat|
+      # Find children of the top level categories
+      # Present the top level categories with an additional field: "children", which is an array of children categories
+      category_children = Category.where("id in (select child_id from category_relationships where parent_id=?)", cat.id)
+      cat_json = CategoryPresenter.present(cat)
+      cat_json[:children] = []
+      category_children.each do |child|
+        cat_json[:children].append(CategoryPresenter.present(child))
+      end
+      json_obj[:categories].append(cat_json)
+    end
+    render json: json_obj
+  end
+
 end

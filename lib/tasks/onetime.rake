@@ -274,7 +274,6 @@ namespace :onetime do
       sfsg_categories = [
         'Residential Care',
         'Residential Treatment',
-        'Criminal Justice Involvement',
         'Personal Safety Items',
         'Computer or Internet Access',
         'Utilities & Insurance Assistance',
@@ -304,11 +303,10 @@ namespace :onetime do
         'Beacon Community School',
         'SEL (Social Emotional Learning)',
         'Self-esteem',
-        'Trauma informed',
+        'Trauma Informed',
         'Coding',
         'Academic',
         'ELA (English Language Arts)',
-        'Youth Tutoring',
         'Social Justice',
         'Arts and Creative Expression',
         'Creative Writing',
@@ -341,14 +339,33 @@ namespace :onetime do
         'Job Placement',
         'Crisis',
         'Programs Integrated into School Day',
-        'Year-Round'
+        'Year-Round',
+        'Sports',
+        'Summer Programs',
+        'Afterschool Programs',
+        'Literacy Supports',
+        'Educational Supports',
+        'Youth Leadership',
+        'Youth-Led Philanthropy',
+        'Skill Building',
+        'College Prep',
+        'Alternative Education',
+        'School Attendance',
+        'STEM',
+        'Culture & Identity',
+        'Parent Education',
+        'Support Services',
+        'Family Resource Centers',
+        'Family Legal Services',
+        'Youth Jobs',
+        'Basketball'
       ]
       sffamilies_inclusive = [
         'Basic Literacy',
         'English as a Second Language',
         'Computer Class',
         'Foreign Languages',
-        'GED/High-School Equivalency',
+        'GED/High School Equivalency',
         'Preschool',
         'School Supplies',
         'School Transportation',
@@ -435,7 +452,13 @@ namespace :onetime do
         'Scholarship',
         'Shower',
         'Toilet',
-        'Wifi Access'
+        'Wifi Access',
+        'Food',
+        'SFUSD Wellness Centers',
+        'Clothing',
+        'Job Training',
+        'Career Awareness',
+        'Criminal Justice Involvement'
       ]
       # create, then associate each category with a site
       sfsg_categories.each do |c|
@@ -524,6 +547,8 @@ namespace :onetime do
           'In-Home Support' => nil,
           'Independent Living' => nil,
           'Senior Centers' => nil,
+          'Family Resource Centers' => nil,
+          'Support Services' => nil,
           'Adoption & Foster Care' => {
             'Transition Age Youth' => nil,
             'Group Home' => nil
@@ -581,10 +606,12 @@ namespace :onetime do
             'Spiritual Support' => nil
           },
           'Recreation' => {
+            'Sports' => nil,
             'Fitness & Exercise' => nil,
             'Rec Teams' => nil,
             'Cheer' => nil,
             'Football' => nil,
+            'Basketball' => nil,
             'Outdoors' => nil,
             'Soccer' => nil,
             'Swimming' => nil,
@@ -626,6 +653,7 @@ namespace :onetime do
           'Education Financial Assistance' => {
             'Scholarship' => nil
           },
+          'College Prep' => nil,
           'Financial Education' => nil,
           'Preschool' => nil,
           'School Supplies' => nil,
@@ -669,12 +697,19 @@ namespace :onetime do
           },
           'Academic' => {
             'ELA (English Language Arts)' => nil,
+            'Literacy Supports' => nil,
+            'Educational Supports' => nil,
             'Math' => nil,
-            'Youth Tutoring' => nil
+            'STEM' => nil
           },
           'Social Justice' => nil,
+          'Culture & Identity' => nil,
           'Programs Integrated into School Day' => nil,
-          'Year-Round' => nil
+          'Year-Round' => nil,
+          'Summer Programs' => nil,
+          'Afterschool Programs' => nil,
+          'School Attendance' => nil,
+          'Parent Education' => nil
         },
         'Arts and Creative Expression' => {
           'Creative Writing' => nil,
@@ -711,7 +746,12 @@ namespace :onetime do
             'Interview Training' => nil,
             'Resume Development' => nil,
             'Specialized Training' => nil
-          }
+          },
+          'Youth Leadership' => nil,
+          'Youth-Led Philanthropy' => nil,
+          'Youth Jobs' => nil,
+          'Career Awareness' => nil,
+          'Skill Building' => nil
         },
         'Finances & Benefits' => {
           'Childcare Financial Assistance' => nil,
@@ -754,6 +794,7 @@ namespace :onetime do
           'Medical Supplies' => nil,
           'Traumatic Brain Injury' => nil,
           'Vision Care' => nil,
+          'SFUSD Wellness Centers' => nil,
           'Addiction & Recovery' => {
             '12-Step' => nil,
             'Detox' => nil,
@@ -887,7 +928,8 @@ namespace :onetime do
           },
           'Translation & Interpretation' => {
             'English as a Second Language' => nil
-          }
+          },
+          'Family Legal Services' => nil
         },
         'LGBTQ' => nil,
         'MOHCD Funded' => nil,
@@ -958,7 +1000,9 @@ namespace :onetime do
         'Students' => 'High School Students',
         'Teens (13-19 years old)' => 'Teens (13-18 years old)',
         'Transgender' => 'Transgender and Gender Non-Conforming',
-        'Transition Aged Youth' => 'Transition Aged Youth (18-24)'
+        'Transition Aged Youth' => 'Transition Aged Youth (18-24)',
+        'Men' => 'Male',
+        'Women' => 'Female'
       }
       renames.each do |old, new|
         Eligibility.find_by(name: old)&.update(name: new)
@@ -981,7 +1025,8 @@ namespace :onetime do
         'Pacific Islander',
         'CIP (Children of Incarcerated Parents)',
         'ESL/ELL (English Language Learner)',
-        'Special Needs/Disabilities'
+        'Special Needs/Disabilities',
+        'Middle School Students'
       ]
       eligibilities.each do |c|
         Eligibility.find_or_create_by(name: c)

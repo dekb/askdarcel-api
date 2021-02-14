@@ -30,24 +30,13 @@ class ServicesController < ApplicationController
   # Include services if they:
   # - are part of a resource matching the requested site
   # - have any of the requested tags
+  # Sort by relevancy (i.e. number of matching tags).
   def find_by_category(category_id_string, site_id)
-    services.includes(
-      resource: [
-        :addresses, :phones, :categories, :notes,
-        schedule: :schedule_days,
-        ratings: [:review]
-      ]
-    ).where(by_category_join_string, (category_id_string.split ","), site_id)
+    find_by_tag("categories_services", "category_id", category_id_string, site_id)
   end
 
   def find_by_eligibility(eligibility_id_string, site_id)
-    services.includes(
-      resource: [
-        :addresses, :phones, :categories, :notes,
-        schedule: :schedule_days,
-        ratings: [:review]
-      ]
-    ).where(by_eligibility_join_string, (eligibility_id_string.split ","), site_id)
+    find_by_tag("eligibilities_services", "eligibility_id", eligibility_id_string, site_id)
   end
 
   def show
@@ -229,31 +218,47 @@ class ServicesController < ApplicationController
     SQL
   end
 
-  def by_category_join_string
-    <<~'SQL'
-      services.id IN (
-        (
-          SELECT services.id
-            FROM services
-            INNER JOIN categories_services ON services.id = categories_services.service_id
-            INNER JOIN resources_sites ON services.resource_id = resources_sites.resource_id
-            WHERE categories_services.category_id in (?) AND resources_sites.site_id = (?)
-        )
+  def find_services_eager_load_resources
+    services
+      .includes(
+        resource: [
+          :addresses, :phones, :categories, :notes,
+          schedule: :schedule_days,
+          ratings: [:review]
+        ]
       )
-    SQL
   end
 
-  def by_eligibility_join_string
-    <<~'SQL'
-      services.id IN (
-        (
-          SELECT services.id
-            FROM services
-            INNER JOIN eligibilities_services ON services.id = eligibilities_services.service_id
-            INNER JOIN resources_sites ON services.resource_id = resources_sites.resource_id
-            WHERE eligibilities_services.eligibility_id in (?) AND resources_sites.site_id = (?)
-        )
-      )
-    SQL
+  def find_tag_count_per_service(tag_table_name, tag_id_name, user_input_tag_ids, user_input_site_id)
+    # Subquery to get service id + count of matching queried tags on that service
+    # - injects tag and site query, sanitizes user SQL input (.where)
+    # - filters out (.where) rows that don't match our tags or site to get an accurate count
+    # - aggregates by service id (.group)
+    # - note that we assume there are no tag-service row dups
+    services.select("services.id AS service_id, COUNT(#{tag_table_name}.#{tag_id_name}) AS n_tags")
+            .joins("INNER JOIN #{tag_table_name} ON services.id = #{tag_table_name}.service_id")
+            .joins("INNER JOIN resources_sites ON services.resource_id = resources_sites.resource_id")
+            .where(
+              "#{tag_table_name}.#{tag_id_name} in (?) AND resources_sites.site_id = (?)",
+              (user_input_tag_ids.split ","),
+              user_input_site_id
+            )
+            .group("services.id")
+  end
+
+  def find_by_tag(tag_table_name, tag_id_name, user_input_tag_ids, user_input_site_id)
+    # Main query:
+    # eager load resource fields to save view time
+    # sort results, starting with the one(s) matching the most categories
+    tag_counts_sanitized_sql = find_tag_count_per_service(
+      tag_table_name,
+      tag_id_name,
+      user_input_tag_ids,
+      user_input_site_id
+    ).to_sql
+    find_services_eager_load_resources
+      .joins("INNER JOIN (#{tag_counts_sanitized_sql})"\
+             " AS n_tags_per_service ON services.id = n_tags_per_service.service_id")
+      .order("n_tags_per_service.n_tags DESC, services.name ASC")
   end
 end

@@ -185,7 +185,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5365e1a0-1071-4351-85ef-9708f52aee29",
+						"id": "27b25cdd-5e05-4709-9fac-94a0e15c53a7",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -224,7 +224,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9f6c655e-c3fe-421c-b8c8-a682153f1c38",
+						"id": "3097519a-6085-408d-8250-08e3f2185fee",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -263,7 +263,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4ab13acf-f751-47d3-84f4-c725d540a0a0",
+						"id": "9f97aeb5-5a84-43a7-bc36-c995f4147e17",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -302,7 +302,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a8f92a0e-215a-41a3-991f-175845034625",
+						"id": "d7cfa5be-cc21-4c19-8201-033c721da8f2",
 						"exec": [
 							"tests[\"Response time is less than 200ms\"] = responseTime < 2000;",
 							"",
@@ -1729,6 +1729,89 @@
 					"path": [
 						"resources",
 						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Texting Empty Phone Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fee45c6-9d64-40ba-83b3-68d78c4ac757",
+						"exec": [
+							"pm.test(\"Sending Empty Phone Number\", function () {",
+							"    const responseJson = pm.response.json();",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.have.jsonBody(\"error\");",
+							"    pm.expect(responseJson.error).to.eql(\"failure\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"recipient_name\": \"uesr test\",\n        \"phone_number\": \"\",\n        \"service_id\": 1\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/textings",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"textings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Texting with Phone Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8d75a5ae-4603-41e9-99d7-728b58a1001d",
+						"exec": [
+							"pm.test(\"Sending with a phone number\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"recipient_name\": \"uesr test\",\n        \"phone_number\": \"4156789876\",\n        \"service_id\": 1\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/textings",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"textings"
 					]
 				}
 			},

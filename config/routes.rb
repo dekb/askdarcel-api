@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'textings/create'
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   resources :categories do
@@ -53,6 +54,7 @@ Rails.application.routes.draw do
   resources :phones do
     resources :change_requests, only: :create
   end
+  resources :textings, only: %i[create destroy]
   resources :change_requests do
     post :approve
     post :reject

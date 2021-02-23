@@ -53,8 +53,8 @@ class CategoriesController < ApplicationController
     # Present the top level categories with an additional field: "children", which is an array of children categories
     cat_json = CategoryPresenter.present(category_object)
     cat_json[:children] = []
-    category_children = Category.where("id in (select child_id from category_relationships where parent_id=?)", category_object.id)
-    category_children.each do |child|
+    children = Category.where("id in (select child_id from category_relationships where parent_id=?)", category_object.id)
+    children.each do |child|
       cat_json[:children].append(CategoryPresenter.present(child))
     end
   end

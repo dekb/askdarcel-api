@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   end
   resources :textings, only: %i[create destroy]
   resources :change_requests do
+    post :create
     post :approve
     post :reject
     collection do

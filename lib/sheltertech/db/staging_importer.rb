@@ -52,6 +52,15 @@ module ShelterTech
         update_id_sequences!
       end
 
+      def self.table_exists(table_name)
+        ActiveRecord::Base.connection.execute("select exists "\
+                                              "(select 1 from information_schema.tables "\
+                                              "where table_schema = 'public' "\
+                                              "and table_name = '#{table_name}')")
+                          .field_values('exists')
+                          .all? { |r| ActiveRecord::Type::Boolean.new.cast(r) }
+      end
+
       def self.read_table_records(tables_to_copy)
         # TODO(cliff): Right now, database is small enough to fit in memory
         # easily. In future, we should update our image's version of `pg_dump`
@@ -59,8 +68,14 @@ module ShelterTech
         log_progress('Copying data from staging database into memory. Expected time: 1 minute')
         tables_to_copy.each_with_index.map do |table_name, i|
           log_progress("Copying from staging: #{table_name} (#{i + 1}/#{tables_to_copy.size})...")
-          records = ActiveRecord::Base.connection.execute("select * from #{table_name}").to_a
-          [table_name, records]
+          if table_exists(table_name)
+            # return table with all records if exists
+            [table_name, ActiveRecord::Base.connection.execute("select * from #{table_name}").to_a]
+          else
+            log_progress("  #{table_name} does not exist in staging, skipping...")
+            # else return an empty table
+            [table_name, []]
+          end
         end
       end
 

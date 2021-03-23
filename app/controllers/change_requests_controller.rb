@@ -19,8 +19,8 @@ class ChangeRequestsController < ApplicationController
       @change_request = ServiceChangeRequest.create(object_id: params[:service_id], resource_id: Service.find(params[:service_id]).resource_id)
     elsif params[:address_id]
       @change_request = AddressChangeRequest.create(object_id: params[:address_id], resource_id: Address.find(params[:address_id]).resource_id)
-    elsif params[:phone_id] || params[:type] == "phones"
-      resource_id = params[:parent_resource_id] || Phone.find(params[:phone_id]).resource_id
+    elsif params[:phone_id]
+      resource_id = Phone.find(params[:phone_id]).resource_id
       @change_request = PhoneChangeRequest.create(object_id: params[:phone_id], resource_id: resource_id)
     elsif params[:schedule_day_id] || params[:type] == "schedule_days"
       schedule = nil
@@ -41,6 +41,8 @@ class ChangeRequestsController < ApplicationController
       else
         @change_request = NoteChangeRequest.create(object_id: params[:note_id], resource_id: Service.find(note.service_id).resource_id)
       end
+    elsif params[:parent_resource_id] && params[:type]
+      @change_request = handle_insert_change_request
     else
       render status: :bad_request
       return
@@ -51,6 +53,83 @@ class ChangeRequestsController < ApplicationController
     persist_change (@change_request)
 
     render status: :created, json: ChangeRequestsPresenter.present(@change_request)
+  end
+
+  def geocode_address(address)
+    begin
+      return Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + "," + address.city + "," + address.state_province
+    rescue => error
+      puts "google geocoding failed for address " + address.id.to_s + ": " + error.message
+    end
+  end
+
+  def handle_insert_change_request
+    resource_id = params[:parent_resource_id]
+    change_request = params[:change_request]
+    case params[:type]
+    when "addresses"
+      puts "AddressInsertChangeRequest"
+      address = Address.new
+      permitted_fields = [
+        :attention,
+        :address_1,
+        :address_2,
+        :address_3,
+        :address_4,
+        :city,
+        :state_province,
+        :postal_code,
+        :country,
+        :online,
+        :region,
+        :name,
+        :description,
+        :transportation
+      ]
+      required_fields = [
+        :address_1, 
+        :city, 
+        :state_province, 
+        :postal_code, 
+        :country
+      ]
+      change_request_params = change_request.require(:field_changes).permit(permitted_fields)
+      change_request_params.require(required_fields)
+
+      address.attributes = change_request_params
+      address.resource_id = resource_id
+      
+      a = geocode_address address
+      unless a.nil?
+        address.latitude = a.latitude
+        address.longitude = a.longitude
+      end
+
+      address.save!
+      AddressChangeRequest.create(object_id: address.id, resource_id: Address.find(address.id).resource_id)
+      
+    when "phones"
+      puts "PhoneInsertChangeRequest"
+      phone = Phone.new
+      permitted_fields = [
+        :description,
+        :number,
+        :service_type,
+        :service_id,
+        :contact_id,
+        :language_id
+      ]
+      required_fields = [:number, :service_type] 
+      change_request_params = change_request.require(:field_changes).permit(permitted_fields)
+      change_request_params.require(required_fields)
+      phone.attributes = change_request_params
+      phone.resource_id = resource_id
+
+      phone.save!
+      PhoneChangeRequest.create(object_id: phone.id, resource_id: Phone.find(phone.id).resource_id)
+    else
+      render status: :precondition_failed
+    end
   end
 
   def index
@@ -169,11 +248,7 @@ class ChangeRequestsController < ApplicationController
       note.update field_change_hash
     elsif change_request.is_a? PhoneChangeRequest
       puts "PhoneChangeRequest"
-      if change_request.object_id
-        phone = Phone.find(change_request.object_id)
-      else
-        phone = Phone.new(resource_id: change_request.resource_id, service_type: "")
-      end
+      phone = Phone.find(change_request.object_id)
       if field_change_hash["number"]
         field_change_hash["number"] = Phonelib.parse(field_change_hash["number"], "US").full_e164
       end
@@ -181,13 +256,11 @@ class ChangeRequestsController < ApplicationController
     elsif change_request.is_a? AddressChangeRequest
       puts "AddressChangeRequest"
       address = Address.find(change_request.object_id)
-
-      begin
-        a = Geokit::Geocoders::GoogleGeocoder.geocode address.address_1 + "," + address.city + "," + address.state_province
+      
+      a = geocode_address address
+      unless a.nil?
         field_change_hash["latitude"] = a.latitude
-        field_change_hash["longitude"] = a.longitude
-      rescue => error
-        puts "google geocoding failed for address " + address.id.to_s + ": " + error.message
+        field_change_hash["longitude"] = a.longitude 
       end
 
       address.update field_change_hash
@@ -233,7 +306,12 @@ class ChangeRequestsController < ApplicationController
   end
 
   def field_changes
-    params[:change_request].to_unsafe_h.map do |name, value|
+    if params[:change_request][:field_changes]
+      fields = params[:change_request][:field_changes]
+    else
+      fields = params[:change_request]
+    end
+    fields.to_unsafe_h.map do |name, value|
       field_change_hash = {}
       # HACK: We need a better way to handle array values
       if name == "categories"

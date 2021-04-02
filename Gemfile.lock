@@ -70,7 +70,6 @@ GEM
       railties (>= 3.2, < 6.1)
     equatable (0.6.1)
     erubi (1.10.0)
-    execjs (2.7.0)
     factory_bot (5.0.2)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.0.2)
@@ -241,8 +240,6 @@ GEM
     tty-which (0.4.1)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (1.6.0)
     unicode_utils (1.4.0)
     uniform_notifier (1.12.1)
@@ -278,7 +275,6 @@ DEPENDENCIES
   rubocop
   sentry-raven
   spring
-  uglifier
 
 BUNDLED WITH
    2.2.15

@@ -3,7 +3,6 @@
 require File.expand_path('boot', __dir__)
 
 require 'rails/all'
-require 'uglifier'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

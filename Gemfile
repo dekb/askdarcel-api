@@ -16,7 +16,6 @@ gem 'puma'
 
 gem 'phonelib'
 gem 'faker'
-gem 'uglifier'
 
 # Search Provider
 gem 'algoliasearch-rails'

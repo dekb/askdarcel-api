@@ -174,6 +174,16 @@ ActiveRecord::Schema.define(version: 2021_02_14_012211) do
     t.index ["service_id"], name: "index_eligibilities_services_on_service_id"
   end
 
+  create_table "feedbacks", force: :cascade do |t|
+    t.string "rating", null: false
+    t.bigint "resource_id"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_id"], name: "index_feedbacks_on_resource_id"
+    t.index ["service_id"], name: "index_feedbacks_on_service_id"
+  end
+
   create_table "field_changes", force: :cascade do |t|
     t.string "field_name"
     t.string "field_value"
@@ -243,18 +253,6 @@ ActiveRecord::Schema.define(version: 2021_02_14_012211) do
     t.index ["resource_id"], name: "index_programs_on_resource_id"
   end
 
-  create_table "ratings", force: :cascade do |t|
-    t.decimal "rating"
-    t.integer "user_id", null: false
-    t.integer "resource_id"
-    t.integer "service_id"
-    t.index ["resource_id"], name: "index_ratings_on_resource_id"
-    t.index ["service_id"], name: "index_ratings_on_service_id"
-    t.index ["user_id", "resource_id", "service_id"], name: "index_ratings_on_user_id_and_resource_id_and_service_id", unique: true
-    t.index ["user_id", "resource_id"], name: "index_ratings_on_user_id_and_resource_id", unique: true
-    t.index ["user_id", "service_id"], name: "index_ratings_on_user_id_and_service_id", unique: true
-  end
-
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -287,8 +285,11 @@ ActiveRecord::Schema.define(version: 2021_02_14_012211) do
 
   create_table "reviews", force: :cascade do |t|
     t.text "review"
-    t.integer "rating_id", null: false
-    t.index ["rating_id"], name: "index_reviews_on_rating_id", unique: true
+    t.text "tags", default: [], array: true
+    t.bigint "feedback_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feedback_id"], name: "index_reviews_on_feedback_id"
   end
 
   create_table "schedule_days", force: :cascade do |t|
@@ -400,6 +401,8 @@ ActiveRecord::Schema.define(version: 2021_02_14_012211) do
   add_foreign_key "change_requests", "resources"
   add_foreign_key "contacts", "resources"
   add_foreign_key "contacts", "services"
+  add_foreign_key "feedbacks", "resources"
+  add_foreign_key "feedbacks", "services"
   add_foreign_key "field_changes", "change_requests"
   add_foreign_key "notes", "resources"
   add_foreign_key "notes", "services"
@@ -408,14 +411,11 @@ ActiveRecord::Schema.define(version: 2021_02_14_012211) do
   add_foreign_key "phones", "resources"
   add_foreign_key "phones", "services"
   add_foreign_key "programs", "resources"
-  add_foreign_key "ratings", "resources"
-  add_foreign_key "ratings", "services"
-  add_foreign_key "ratings", "users"
   add_foreign_key "resources", "contacts"
   add_foreign_key "resources", "fundings"
   add_foreign_key "resources_sites", "resources"
   add_foreign_key "resources_sites", "sites"
-  add_foreign_key "reviews", "ratings"
+  add_foreign_key "reviews", "feedbacks"
   add_foreign_key "schedule_days", "schedules"
   add_foreign_key "schedules", "resources"
   add_foreign_key "schedules", "services"

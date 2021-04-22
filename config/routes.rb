@@ -25,14 +25,14 @@ Rails.application.routes.draw do
     post :create
     post :certify
 
-    resources :ratings, only: :create
     resources :change_requests, only: :create
     resources :services, only: :create
+    resources :feedbacks, only: %i[create index]
   end
   resources :services do
-    resources :ratings, only: :create
     resources :change_requests, only: :create
     resources :notes, only: :create
+    resources :feedbacks, only: %i[create index]
     post :approve
     post :reject
     post :certify

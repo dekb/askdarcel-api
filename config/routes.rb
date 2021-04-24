@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get :counts
       get :featured
       get :subcategories
+      get :hierarchy
     end
   end
   resources :eligibilities, only: %i[index show update] do

@@ -50,8 +50,7 @@ class ServicesController < ApplicationController
       resource: [
         :addresses, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
-        ratings: [:review]
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }]
       ]
     ).where(featured_by_category_join_string, category_id)
 
@@ -83,8 +82,7 @@ class ServicesController < ApplicationController
       resource: [
         :addresses, :phones, :categories, :notes,
         schedule: :schedule_days,
-        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }],
-        ratings: [:review]
+        services: [:notes, :categories, :addresses, :eligibilities, { schedule: :schedule_days }]
       ]
     ).pending
     render json: ServicesWithResourcePresenter.present(pending_services)
